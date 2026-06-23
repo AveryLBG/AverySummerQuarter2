@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
  
     private Vector2 moveInput;
 
+    //LOGIC
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float groundCheckDistance = 10f;
+
     // COMPONENTS
     [SerializeField] private Rigidbody rb;
 
@@ -74,12 +78,27 @@ public class PlayerController : MonoBehaviour
         // Prevent diagonals from being faster
         moveDirection.Normalize();
         // Apply the movement of the player.
-        rb.MovePosition(+ moveDirection * moveSpeed * Time.deltaTime);
+        rb.MovePosition(rb.position + moveDirection * moveSpeed * Time.deltaTime);
 
     }
 
+    
+
     private void HandleJump()
     {
-        Debug.Log("Jump my bones");
+        if (IsGrounded())
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+        
+    }
+
+    private bool IsGrounded()
+    {
+          //Draw the raycast for debug
+        Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance);
+    
+        return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundLayer);
+      
     }
 }
