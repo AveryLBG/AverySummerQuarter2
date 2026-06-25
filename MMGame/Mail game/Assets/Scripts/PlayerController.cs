@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         //Turn on the player Action Map when this is enabled
-        InputActions.FindActionMap("Player").Enable();
+        InputActions.FindActionMap("Player")?.Enable();
     }
 
 
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
      private void OnDisable()
     {
         //Turn on the player Action Map when this is disabled
-        InputActions.FindActionMap("Player").Disable();
+        InputActions.FindActionMap("Player")?.Disable();
     }
     
     //Update= 1 per frame, so 60-120 per second.
@@ -74,11 +74,12 @@ public class PlayerController : MonoBehaviour
     private void HandleMovement()
     {
         //Calculate and store the direction the player will move based on the input
-        Vector3 moveDirection = transform.forward * moveInput.y + transform.right * moveInput.x;
+        //Vector3 moveDirection = new Vector3 transform.forward * moveInput.y + transform.right * moveInput.x;
+        Vector3 moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
         // Prevent diagonals from being faster
         moveDirection.Normalize();
         // Apply the movement of the player.
-        rb.MovePosition(rb.position + moveDirection * moveSpeed * Time.deltaTime);
+        rb.AddForce(moveDirection * moveSpeed * Time.deltaTime);
 
     }
 
