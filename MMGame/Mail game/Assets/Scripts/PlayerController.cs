@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
         // Prevent diagonals from being faster
         moveDirection.Normalize();
         // Apply the movement of the player.
-        rb.AddForce(moveDirection * moveSpeed * Time.deltaTime);
+        rb.AddForce(moveDirection * moveSpeed * Time.deltaTime, ForceMode.Force );
 
     }
 
