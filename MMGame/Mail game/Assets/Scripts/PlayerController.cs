@@ -6,10 +6,12 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField, Tooltip("A variable to store the input action sheet we use for input.")] 
     private InputActionAsset InputActions;
+    [SerializeField] private BlueKick kick; 
 
     // ACTIONS
     private InputAction moveAction;
     private InputAction jumpAction;
+    private InputAction attackAction;
  
     private Vector2 moveInput;
 
@@ -25,12 +27,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
 
 
+
     // Awake is called when the script is loaded.
     private void Awake()
     {
         //Assign our input action variables to their respective input actions
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
+        attackAction = InputSystem.actions.FindAction("Attack");
 
         // Assign the rb variable to the player's rigidbody component
         rb = GetComponent<Rigidbody>();
@@ -60,6 +64,12 @@ public class PlayerController : MonoBehaviour
         {
             //Tell the player to jump.
             HandleJump();
+        }
+         if (attackAction.WasPressedThisFrame())
+        {
+            //Tell the player to jump.
+            kick.HandleKick();
+            Debug.Log("AGHHHAGHA");
         }
 
     }
@@ -103,3 +113,4 @@ public class PlayerController : MonoBehaviour
       
     }
 }
+   
