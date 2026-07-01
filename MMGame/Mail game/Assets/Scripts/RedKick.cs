@@ -2,28 +2,28 @@ using UnityEngine;
 using UnityEngine.InputSystem; //imports the input system into the script
 using System.Collections;
 
-public class BlueKick : MonoBehaviour
+public class RedKick : MonoBehaviour
 {
 
-   private bool BlueLegOut = false;
+   private bool RedLegOut = false;
 
    [SerializeField, Tooltip("Probably bad that this is seperate, but I'll learn whats correct eventually.")] 
    private InputActionAsset InputActions;
    [SerializeField, Tooltip("The player kicking")] private Transform targetObject;
-   private InputAction attackAction;
+   private InputAction attack2Action;
  
    private void Awake()
    {
-      attackAction = InputSystem.actions.FindAction("Attack");
+      attack2Action = InputSystem.actions.FindAction("Attack2");
    }
    private void OnEnable()
    {
-      attackAction.Enable();
+      attack2Action.Enable();
    }
 
    private void OnDisable()
    {
-      attackAction.Disable();
+      attack2Action.Disable();
    }
 
   
@@ -33,18 +33,18 @@ public class BlueKick : MonoBehaviour
    private void Update()
    {
          transform.LookAt(target.transform);
-         if (attackAction.WasPressedThisFrame())
+         if (attack2Action.WasPressedThisFrame())
          {
             //IF the leg is in, go out. otherwise, go inwards.
             
-            if(!BlueLegOut)
+            if(!RedLegOut)
             {
                
                
                         
                
-               Debug.Log("kick");
-               StartCoroutine(WaitAndLogCoroutine());
+               Debug.Log("kick2");
+               StartCoroutine(WaitAndLogCoroutine2());
                
 
                
@@ -54,24 +54,24 @@ public class BlueKick : MonoBehaviour
          }
 
    }
-   IEnumerator WaitAndLogCoroutine()
+   IEnumerator WaitAndLogCoroutine2()
    {
-        Debug.Log("Leg out");
-        BlueLegOut = true;
+        Debug.Log("Leg out2");
+        RedLegOut = true;
         transform.position = targetObject.position + transform.forward * kickForce;
 
         // 3. This line pauses execution without freezing the game
         yield return new WaitForSeconds(0.1f);
 
-        BlueLegOut = false;
-        Debug.Log("Leg in");
+        RedLegOut = false;
+        Debug.Log("Leg in2");
    }
    
    private void LateUpdate()
    {
       if (targetObject != null)
       {
-         if (!BlueLegOut)
+         if (!RedLegOut)
          {
             // Matches the exact position every frame
             transform.position = targetObject.position; 

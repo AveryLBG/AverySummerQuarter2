@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField, Tooltip("A variable to store the input action sheet we use for input.")] 
     private InputActionAsset InputActions;
-    [SerializeField] private BlueKick kick; 
 
     // ACTIONS
     private InputAction moveAction;
@@ -64,12 +63,6 @@ public class PlayerController : MonoBehaviour
         {
             //Tell the player to jump.
             HandleJump();
-        }
-         if (attackAction.WasPressedThisFrame())
-        {
-            //Tell the player to jump.
-            kick.HandleKick();
-            Debug.Log("AGHHHAGHA");
         }
 
     }
