@@ -43,7 +43,7 @@ public class RedKick : MonoBehaviour
                
                         
                
-               Debug.Log("kick2");
+         
                StartCoroutine(WaitAndLogCoroutine2());
                
 
@@ -56,7 +56,7 @@ public class RedKick : MonoBehaviour
    }
    IEnumerator WaitAndLogCoroutine2()
    {
-        Debug.Log("Leg out2");
+   
         RedLegOut = true;
         transform.position = targetObject.position + transform.forward * kickForce;
 
@@ -64,7 +64,7 @@ public class RedKick : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         RedLegOut = false;
-        Debug.Log("Leg in2");
+    
    }
    
    private void LateUpdate()

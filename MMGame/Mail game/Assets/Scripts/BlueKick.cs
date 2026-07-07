@@ -43,7 +43,7 @@ public class BlueKick : MonoBehaviour
                
                         
                
-               Debug.Log("kick");
+            
                StartCoroutine(WaitAndLogCoroutine());
                
 
@@ -56,7 +56,7 @@ public class BlueKick : MonoBehaviour
    }
    IEnumerator WaitAndLogCoroutine()
    {
-        Debug.Log("Leg out");
+  
         BlueLegOut = true;
         transform.position = targetObject.position + transform.forward * kickForce;
 
@@ -64,7 +64,7 @@ public class BlueKick : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         BlueLegOut = false;
-        Debug.Log("Leg in");
+  
    }
    
    private void LateUpdate()
