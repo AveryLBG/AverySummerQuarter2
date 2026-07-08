@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem; //imports the input system into the script
+using System.Collections;
 
 public class Player2Controller : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class Player2Controller : MonoBehaviour
     //LOGIC
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDistance = 10f;
+    private bool slamcd2 = true;
 
     // COMPONENTS
     [SerializeField] private Rigidbody rb;
@@ -79,8 +81,24 @@ public class Player2Controller : MonoBehaviour
         // Prevent diagonals from being faster
         moveDirection.Normalize();
         // Apply the movement of the player.
-        rb.AddForce(moveDirection * moveSpeed * Time.deltaTime, ForceMode.Force );
+        rb.AddForce(moveDirection * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
 
+    }
+    IEnumerator CooldownSequence2()
+    {
+        slamcd2 = false;
+
+        //Pause for 0.5 seconds
+        yield return new WaitForSeconds(0.5f);
+
+        //Reset mass
+        rb.mass = 1;
+    
+        // Pause the coroutine for 2 seconds
+        yield return new WaitForSeconds(2f);
+        
+        slamcd2 = true;
+    
     }
 
     
@@ -91,6 +109,15 @@ public class Player2Controller : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
+        else
+        {   
+            if (slamcd2)
+            {
+                rb.AddForce(Vector3.down * jumpForce * 2f, ForceMode.Impulse);
+                rb.mass = 10f;
+                StartCoroutine(CooldownSequence2());
+            }
+        }   
         
     }
 

@@ -13,6 +13,8 @@ public class KickBounce : MonoBehaviour
         //Debug.Log("Something hit the pad!");
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
         Player2Controller player2 = collision.gameObject.GetComponent<Player2Controller>();
+        KickBounce OtherLeg = collision.gameObject.GetComponent<KickBounce>();
+
         if (player != null || player2 != null) 
         {
            {

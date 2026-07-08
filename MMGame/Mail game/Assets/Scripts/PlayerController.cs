@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem; //imports the input system into the script
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    
     
     [SerializeField, Tooltip("A variable to store the input action sheet we use for input.")] 
     private InputActionAsset InputActions;
@@ -17,6 +19,7 @@ public class PlayerController : MonoBehaviour
     //LOGIC
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDistance = 10f;
+    private bool slamcd1 = true;
 
     // COMPONENTS
     [SerializeField] private Rigidbody rb;
@@ -74,6 +77,25 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    //Cooldown handler
+    IEnumerator CooldownSequence()
+    {
+        slamcd1 = false;
+
+         //Pause for 0.5 seconds
+        yield return new WaitForSeconds(0.5f);
+
+        //Reset mass
+        rb.mass = 1;
+
+
+        // Pause the coroutine for 2 seconds
+        yield return new WaitForSeconds(2f);
+        
+        slamcd1 = true;
+    
+    }
+
     private void HandleMovement()
     {
         //Calculate and store the direction the player will move based on the input
@@ -82,7 +104,7 @@ public class PlayerController : MonoBehaviour
         // Prevent diagonals from being faster
         moveDirection.Normalize();
         // Apply the movement of the player.
-        rb.AddForce(moveDirection * moveSpeed * Time.deltaTime, ForceMode.Force );
+        rb.AddForce(moveDirection * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
 
     }
 
@@ -93,6 +115,15 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+        else
+        {
+            if (slamcd1)
+            {
+                rb.AddForce(Vector3.down * jumpForce * 2f, ForceMode.Impulse);
+                rb.mass = 10f;
+                StartCoroutine(CooldownSequence());
+            }
         }
         
     }

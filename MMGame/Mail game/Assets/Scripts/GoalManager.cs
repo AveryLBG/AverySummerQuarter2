@@ -1,14 +1,35 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro; // Required namespace for TextMesh Pro
+using System.Collections;  //for Coroutines
 
 public class GoalManager : MonoBehaviour
 {
+    public static GoalManager Instance {get; private set;}
+    private void Awake()
+    {
+        //Check singleton
+        if (Instance == null)
+        {
+            Instance = this;
+        
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
       
     [SerializeField] public int BlueScore = 0;
     [SerializeField] public int RedScore = 0;
+    [SerializeField] public TextMeshProUGUI BlueScoretext;
+    [SerializeField] public TextMeshProUGUI RedScoretext;
+    [SerializeField] public TextMeshProUGUI WinnerAlert;
+    [SerializeField] private GameManager GameManager; 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("DIH CHEESE");
+    
         //Debug.Log("Something hit the pad!");
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
         Player2Controller player2 = collision.gameObject.GetComponent<Player2Controller>();
@@ -31,18 +52,15 @@ public class GoalManager : MonoBehaviour
                     {
                         BlueScore += 1;
                     }
-                    if (BlueScore >= 3);
+                    if (BlueScore >= 3)
                     {
-                        //show UI
-                        //Use wait coroutine
-                        //end game                        
+                        StartCoroutine(BlueWin());                     
                         
                     }
-                    if (RedScore >= 3);
+                    if (RedScore >= 3)
                     {
-                        //show UI
-                        //Use wait coroutine
-                        //end game
+                       
+                        StartCoroutine(RedWin());
                         
                     }
         
@@ -52,6 +70,24 @@ public class GoalManager : MonoBehaviour
 
         }
 
+    }
+    private void Update()
+    {
+        BlueScoretext.text = BlueScore.ToString();
+        RedScoretext.text = RedScore.ToString();
+
+    }
+    IEnumerator BlueWin()
+    {
+        WinnerAlert.text = "Blue Won!";
+        yield return new WaitForSeconds(3f);
+        GameManager.GameOver();
+    }
+    IEnumerator RedWin()
+    {
+        WinnerAlert.text = "Red Won";
+        yield return new WaitForSeconds(3f);
+        GameManager.GameOver();
     }
     
 }
