@@ -59,6 +59,10 @@ public class PlayerController : MonoBehaviour
     //Update= 1 per frame, so 60-120 per second.
     private void Update()
     {
+        if (GameManager.isGameOver)
+            {
+                return;
+            }
         // Read & store movement
         moveInput = moveAction.ReadValue<Vector2>();
 
@@ -128,7 +132,7 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
           //Draw the raycast for debug
         Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance);

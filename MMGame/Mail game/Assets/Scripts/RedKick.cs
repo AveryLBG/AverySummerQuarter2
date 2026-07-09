@@ -32,19 +32,23 @@ public class RedKick : MonoBehaviour
    [SerializeField] private float kickForce = 0.5f;
    private void Update()
    {
+      if (GameManager.isGameOver)
+            {
+                return;
+            }
          transform.LookAt(target.transform);
          if (attack2Action.WasPressedThisFrame())
          {
-            //IF the leg is in, go out. otherwise, go inwards.
+            //IF the leg is in, go out. 
             
             if(!RedLegOut)
             {
                
                
                         
-               
+            
          
-               StartCoroutine(WaitAndLogCoroutine2());
+                  StartCoroutine(WaitAndLogCoroutine2());
                
 
                
@@ -58,12 +62,20 @@ public class RedKick : MonoBehaviour
    {
    
         RedLegOut = true;
-        transform.position = targetObject.position + transform.forward * kickForce;
+        
 
         // 3. This line pauses execution without freezing the game
         yield return new WaitForSeconds(0.1f);
 
         RedLegOut = false;
+        //make it so that it gets shorter
+
+
+      
+
+
+   
+
     
    }
    
@@ -75,6 +87,10 @@ public class RedKick : MonoBehaviour
          {
             // Matches the exact position every frame
             transform.position = targetObject.position; 
+         }
+         else
+         {
+            transform.position = targetObject.position + transform.forward * kickForce;
          }
       }
    }

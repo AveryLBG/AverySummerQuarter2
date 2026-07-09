@@ -5,6 +5,9 @@ public class GameManager : MonoBehaviour
 {
     // Stores the one (and only) instance of this script
     public static GameManager Instance {get; private set;}
+    
+    [SerializeField] public static bool isGameOver = false;
+   
 
     private void Awake()
     {
@@ -19,15 +22,34 @@ public class GameManager : MonoBehaviour
             // Destroy this extra copy of this script
             Destroy(gameObject);
         }
+        isGameOver = false;
     } 
 
     public void GameOver()
     {
         // Trigger Lose state UI
         // ...
-
-        // Load the scene at build index 0
-        SceneManager.LoadScene(0);
+        if(isGameOver)
+        {
+            return; ///Do nothing if the game is over
+        }
+        else
+        {
+            isGameOver = true;
+            GoalManager.Instance.ToggleGameOverUI(true);
+            
+            
+            
+        }
+       
+    }
+    public void LoadCurrentScene() //restart the scene
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);  
+    }
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene(0);  
     }
 
 }

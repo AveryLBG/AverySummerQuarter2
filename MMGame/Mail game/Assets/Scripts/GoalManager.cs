@@ -4,7 +4,14 @@ using TMPro; // Required namespace for TextMesh Pro
 using System.Collections;  //for Coroutines
 
 public class GoalManager : MonoBehaviour
-{
+{   
+     [SerializeField] public int BlueScore = 0;
+    [SerializeField] public int RedScore = 0;
+    [SerializeField] public TextMeshProUGUI BlueScoretext;
+    [SerializeField] public TextMeshProUGUI RedScoretext;
+    [SerializeField] public TextMeshProUGUI WinnerAlert;
+    [SerializeField] private GameManager GameManager; 
+    [SerializeField] private GameObject GameOverPanel;
     public static GoalManager Instance {get; private set;}
     private void Awake()
     {
@@ -18,14 +25,10 @@ public class GoalManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        ToggleGameOverUI(false);
     }
       
-    [SerializeField] public int BlueScore = 0;
-    [SerializeField] public int RedScore = 0;
-    [SerializeField] public TextMeshProUGUI BlueScoretext;
-    [SerializeField] public TextMeshProUGUI RedScoretext;
-    [SerializeField] public TextMeshProUGUI WinnerAlert;
-    [SerializeField] private GameManager GameManager; 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void OnCollisionEnter(Collision collision)
     {
@@ -54,13 +57,13 @@ public class GoalManager : MonoBehaviour
                     }
                     if (BlueScore >= 3)
                     {
-                        StartCoroutine(BlueWin());                     
+                        BlueWin();                     
                         
                     }
                     if (RedScore >= 3)
                     {
                        
-                        StartCoroutine(RedWin());
+                       RedWin();
                         
                     }
         
@@ -77,17 +80,21 @@ public class GoalManager : MonoBehaviour
         RedScoretext.text = RedScore.ToString();
 
     }
-    IEnumerator BlueWin()
+    private void BlueWin()
     {
         WinnerAlert.text = "Blue Won!";
-        yield return new WaitForSeconds(3f);
+       
         GameManager.GameOver();
     }
-    IEnumerator RedWin()
+    private void RedWin()
     {
         WinnerAlert.text = "Red Won";
-        yield return new WaitForSeconds(3f);
+        
         GameManager.GameOver();
+    }
+    public void ToggleGameOverUI(bool flag)
+    {
+        GameOverPanel.SetActive(flag);
     }
     
 }

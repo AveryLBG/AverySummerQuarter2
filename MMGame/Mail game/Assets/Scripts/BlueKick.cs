@@ -6,6 +6,7 @@ public class BlueKick : MonoBehaviour
 {
 
    private bool BlueLegOut = false;
+   
 
    [SerializeField, Tooltip("Probably bad that this is seperate, but I'll learn whats correct eventually.")] 
    private InputActionAsset InputActions;
@@ -32,6 +33,10 @@ public class BlueKick : MonoBehaviour
    [SerializeField] private float kickForce = 0.5f;
    private void Update()
    {
+      if (GameManager.isGameOver)
+            {
+                return;
+            }
          transform.LookAt(target.transform);
          if (attackAction.WasPressedThisFrame())
          {
@@ -39,31 +44,37 @@ public class BlueKick : MonoBehaviour
             
             if(!BlueLegOut)
             {
-               
-               
-                        
+            
+            
                
             
                StartCoroutine(WaitAndLogCoroutine());
                
 
-               
+            
             
             }
          
          }
+
 
    }
    IEnumerator WaitAndLogCoroutine()
    {
   
         BlueLegOut = true;
-        transform.position = targetObject.position + transform.forward * kickForce;
+
+      
+        
 
         // 3. This line pauses execution without freezing the game
         yield return new WaitForSeconds(0.1f);
 
         BlueLegOut = false;
+
+
+
+      
   
    }
    
@@ -75,6 +86,10 @@ public class BlueKick : MonoBehaviour
          {
             // Matches the exact position every frame
             transform.position = targetObject.position; 
+         }
+         else
+         {
+            transform.position = targetObject.position + transform.forward * kickForce;
          }
       }
    }

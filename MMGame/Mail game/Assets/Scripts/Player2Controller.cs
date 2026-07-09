@@ -55,6 +55,10 @@ public class Player2Controller : MonoBehaviour
     //Update= 1 per frame, so 60-120 per second.
     private void Update()
     {
+        if (GameManager.isGameOver)
+            {
+                return;
+            }
         // Read & store movement
         moveInput = moveAction.ReadValue<Vector2>();
 

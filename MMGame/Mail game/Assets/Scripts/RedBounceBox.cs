@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class KickBounce : MonoBehaviour
+public class RedBounceBox : MonoBehaviour
 {
       
 
@@ -11,19 +11,13 @@ public class KickBounce : MonoBehaviour
     {
 
         //Debug.Log("Something hit the pad!");
+        
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-        Player2Controller player2 = collision.gameObject.GetComponent<Player2Controller>();
-        RedBounceBox rbb = collision.gameObject.GetComponent<RedBounceBox>();
-        BlueBounceBox bbb = collision.gameObject.GetComponent<BlueBounceBox>();
-
-        KickBounce OtherLeg = collision.gameObject.GetComponent<KickBounce>();
-
-        if (player != null || player2 != null || rbb != null || bbb != null) 
+        if (player != null) 
         {
            {
            // Grab and store that players rigid body compoenent
             Rigidbody rb = collision.rigidbody;
-            
 
             if (rb == null) return;
 
@@ -37,25 +31,10 @@ public class KickBounce : MonoBehaviour
                 // Bounce their asss using their rb component
                 //Uses negative values because the pad bounces in the wrong direction.
                 rb.AddForce(-1 * bounciness  * bounceDirection, ForceMode.Impulse);
-
-                bounciness += 3f;
-                //Debug.Log("B:" + bounciness );
-                
-
-            
            }
 
         }
-  
 
-    }
-    private void FixedUpdate()
-    {
-            if (bounciness > 17f)
-            {
-                bounciness -= 0.01f;
-                //Debug.Log("B:" + bounciness );
-            }
     }
     
 }
