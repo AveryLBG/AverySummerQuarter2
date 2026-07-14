@@ -1,8 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; // Enable this script to change scenes and more
 
+
 public class MainMenu : MonoBehaviour
 {
+
+    [SerializeField] private GameObject TutorialPanel;
     public void StartGame()
     {
         // Load the next scene in the build index (the game scene)
@@ -13,5 +16,15 @@ public class MainMenu : MonoBehaviour
     {
         // Close the game application
         Application.Quit();
+    }
+
+    public void OpenTutorial()
+    {
+        TutorialPanel.SetActive(true);
+    }
+
+    public void CloseTutorial()
+    {
+        TutorialPanel.SetActive(false);
     }
 }

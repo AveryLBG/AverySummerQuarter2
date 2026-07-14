@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro; // Required namespace for TextMesh Pro
 using System.Collections;  //for Coroutines
+using UnityEngine.InputSystem; //imports the input system into the script
 
 public class GoalManager : MonoBehaviour
 {   
@@ -12,7 +13,10 @@ public class GoalManager : MonoBehaviour
     [SerializeField] public TextMeshProUGUI WinnerAlert;
     [SerializeField] private GameManager GameManager; 
     [SerializeField] private GameObject GameOverPanel;
+    [SerializeField] private InputActionAsset InputActions;
+    private InputAction menuAction;
     public static GoalManager Instance {get; private set;}
+    private bool menuOpen = false;
     private void Awake()
     {
         //Check singleton
@@ -26,6 +30,7 @@ public class GoalManager : MonoBehaviour
             Destroy(gameObject);
         }
         ToggleGameOverUI(false);
+        menuAction = InputSystem.actions.FindAction("Menu");
     }
       
 
@@ -36,7 +41,7 @@ public class GoalManager : MonoBehaviour
         //Debug.Log("Something hit the pad!");
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
         Player2Controller player2 = collision.gameObject.GetComponent<Player2Controller>();
-        if (player != null || player2 != null) 
+        //if (player != null || player2 != null) 
         {
            {
            // Grab and store that players rigid body compoenent
@@ -78,6 +83,20 @@ public class GoalManager : MonoBehaviour
     {
         BlueScoretext.text = BlueScore.ToString();
         RedScoretext.text = RedScore.ToString();
+        if (menuAction.WasPressedThisFrame())
+        {
+            if (menuOpen)
+            {
+                GameOverPanel.SetActive(false);
+                menuOpen = false;
+            }
+            else
+            {
+               GameOverPanel.SetActive(true);
+               menuOpen = true;
+            }
+            
+        }
 
     }
     private void BlueWin()

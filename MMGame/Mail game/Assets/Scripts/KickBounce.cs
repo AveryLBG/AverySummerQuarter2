@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class KickBounce : MonoBehaviour
 {
@@ -6,7 +7,10 @@ public class KickBounce : MonoBehaviour
 
 
     [SerializeField] private float bounciness = 20f;
-    [SerializeField]private GameObject target; 
+    [SerializeField]private GameObject target;
+    [SerializeField] private GameObject HitstopScreen;
+    private bool isWaiting = false; 
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void OnCollisionEnter(Collision collision)
     {
@@ -29,7 +33,7 @@ public class KickBounce : MonoBehaviour
 
             if (rb == null) return;
 
-            
+                if (isWaiting) return;
                 //get the point of contact
                 ContactPoint contact = collision.contacts[0];
 
@@ -39,6 +43,11 @@ public class KickBounce : MonoBehaviour
                 // Bounce their asss using their rb component
                 //Uses negative values because the pad bounces in the wrong direction.
                 rb.AddForce(-0.1f * bounciness  * bounceDirection * target.GetComponent<Rigidbody>().linearVelocity.magnitude, ForceMode.Impulse);
+                if (target.GetComponent<Rigidbody>().linearVelocity.magnitude >= 15f)
+                {
+                    if (isWaiting) return;
+                    StartCoroutine(ExecuteHitStop(0.3f + (target.GetComponent<Rigidbody>().linearVelocity.magnitude - 15f)/100f));
+                }
                 //Debug.Log("Grandparent: " + target);
                 bounciness += 3f;
                 //Debug.Log("B:" + bounciness );
@@ -66,7 +75,7 @@ public class KickBounce : MonoBehaviour
 
                 // Bounce their asss using their rb component
                 //Uses negative values because the pad bounces in the wrong direction.
-                rb.AddForce( bounciness  * forwardDirection, ForceMode.Impulse);
+                rb.AddForce( 3f * bounciness  * forwardDirection, ForceMode.Impulse);
                 
 
                 bounciness += 3f;
@@ -103,11 +112,25 @@ public class KickBounce : MonoBehaviour
   
 
     }
+    private IEnumerator ExecuteHitStop(float duration)
+    {
+        isWaiting = true;
+        HitstopScreen.SetActive(true);
+        Time.timeScale = 0f; // Freeze all game logic and physics
+
+        // Must use Realtime because Time.timeScale is 0
+        yield return new WaitForSecondsRealtime(duration); 
+
+        Time.timeScale = 1f; // Restore normal speed
+        HitstopScreen.SetActive(false);
+        yield return new WaitForSecondsRealtime(5); 
+        isWaiting = false;
+    }
     private void FixedUpdate()
     {
             if (bounciness > 17f)
             {
-                bounciness -= 0.01f;
+                bounciness -= 0.02f;
                 //Debug.Log("B:" + bounciness );
             }
     }

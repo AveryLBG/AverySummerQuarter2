@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     //LOGIC
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDistance = 10f;
+    //[SerializeField] float speed; //DELETE LATER
     private bool slamcd1 = true;
 
     // COMPONENTS
@@ -71,6 +72,7 @@ public class PlayerController : MonoBehaviour
             //Tell the player to jump.
             HandleJump();
         }
+        //speed = rb.linearVelocity.magnitude;
 
     }
 

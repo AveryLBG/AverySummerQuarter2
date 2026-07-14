@@ -7,6 +7,7 @@ public class BlueKick : MonoBehaviour
 
    private bool BlueLegOut = false;
    
+   
 
    [SerializeField, Tooltip("Probably bad that this is seperate, but I'll learn whats correct eventually.")] 
    private InputActionAsset InputActions;
