@@ -54,7 +54,16 @@ public class RedKick : MonoBehaviour
                
             
             }
+            else
+            {
+            
+            }
+  
          
+         }
+         if (RedLegOut)
+         {
+            transform.position = targetObject.position + transform.forward * kickForce;
          }
 
    }
@@ -87,10 +96,6 @@ public class RedKick : MonoBehaviour
          {
             // Matches the exact position every frame
             transform.position = targetObject.position; 
-         }
-         else
-         {
-            transform.position = targetObject.position + transform.forward * kickForce;
          }
       }
    }

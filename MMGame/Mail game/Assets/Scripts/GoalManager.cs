@@ -6,7 +6,7 @@ using UnityEngine.InputSystem; //imports the input system into the script
 
 public class GoalManager : MonoBehaviour
 {   
-     [SerializeField] public int BlueScore = 0;
+    [SerializeField] public int BlueScore = 0;
     [SerializeField] public int RedScore = 0;
     [SerializeField] public TextMeshProUGUI BlueScoretext;
     [SerializeField] public TextMeshProUGUI RedScoretext;

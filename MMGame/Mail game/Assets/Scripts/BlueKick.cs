@@ -57,6 +57,10 @@ public class BlueKick : MonoBehaviour
             }
          
          }
+            else
+            {
+            transform.position = targetObject.position + transform.forward * kickForce;
+            }
 
 
    }
@@ -88,10 +92,7 @@ public class BlueKick : MonoBehaviour
             // Matches the exact position every frame
             transform.position = targetObject.position; 
          }
-         else
-         {
-            transform.position = targetObject.position + transform.forward * kickForce;
-         }
+   
       }
    }
    
