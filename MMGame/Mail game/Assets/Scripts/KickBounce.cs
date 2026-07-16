@@ -11,6 +11,7 @@ public class KickBounce : MonoBehaviour
     [SerializeField] private GameObject HitstopScreen;
     [SerializeField] private AudioManager AudioManager;
     public static bool isWaiting = false; 
+    private float critical;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -45,10 +46,25 @@ public class KickBounce : MonoBehaviour
                 // Bounce their asss using their rb component
                 //Uses negative values because the pad bounces in the wrong direction.
                 rb.AddForce(-0.1f * bounciness  * bounceDirection * target.GetComponent<Rigidbody>().linearVelocity.magnitude, ForceMode.Impulse);
-                if (target.GetComponent<Rigidbody>().linearVelocity.magnitude >= 15f)
+                if (target.GetComponent<Rigidbody>().linearVelocity.magnitude >= 10f)
                 {
                     if (isWaiting) return;
+                    critical = Random.value;
                     StartCoroutine(ExecuteHitStop(0.5f + (target.GetComponent<Rigidbody>().linearVelocity.magnitude - 15f)/10f));
+                    if (critical <= 0.1 || target.GetComponent<Rigidbody>().linearVelocity.magnitude >= 20f)
+                    {
+                        AudioManager.PlaySound("Crit");
+                        Debug.Log("CRITICAL HIT");
+                    }
+                    else
+                    {
+                        AudioManager.PlaySound("Hit");
+                        Debug.Log("normal hit");
+                    }
+                    
+                    
+
+                    
                 }
                 //Debug.Log("Grandparent: " + target);
                 bounciness += 3f;
@@ -118,14 +134,14 @@ public class KickBounce : MonoBehaviour
     {
         isWaiting = true;
         HitstopScreen.SetActive(true);
-        Time.timeScale = 0.05f; // Freeze all game logic and physics
+        Time.timeScale = 0f; // Freeze all game logic and physics
 
         // Must use Realtime because Time.timeScale is 0
         yield return new WaitForSecondsRealtime(duration); 
 
         Time.timeScale = 1f; // Restore normal speed
         HitstopScreen.SetActive(false);
-        AudioManager.PlaySound("Hit2");
+        
         yield return new WaitForSecondsRealtime(5); 
         isWaiting = false;
     }

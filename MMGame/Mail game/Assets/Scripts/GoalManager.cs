@@ -17,6 +17,11 @@ public class GoalManager : MonoBehaviour
     private InputAction menuAction;
     public static GoalManager Instance {get; private set;}
     private bool menuOpen = false;
+
+    public int blueWins {get; private set;}
+    public int redWins {get; private set;}
+    //1. Players play
+    //2. When the game is over calc liftime wins
     private void Awake()
     {
         //Check singleton
@@ -31,6 +36,10 @@ public class GoalManager : MonoBehaviour
         }
         ToggleGameOverUI(false);
         menuAction = InputSystem.actions.FindAction("Menu");
+
+        //Gets the saved data
+        blueWins = PlayerPrefs.GetInt("BlueWins", 0);
+        redWins = PlayerPrefs.GetInt("RedWins", 0);
     }
       
 
@@ -52,6 +61,7 @@ public class GoalManager : MonoBehaviour
                     
                     collision.transform.position = new Vector3(0,10,0);
                     rb.linearVelocity = Vector3.zero; 
+                    rb.angularVelocity = Vector3.zero;
                     if (player != null)
                     {
                         RedScore += 1;
@@ -62,13 +72,15 @@ public class GoalManager : MonoBehaviour
                     }
                     if (BlueScore >= 3)
                     {
-                        BlueWin();                     
+                        BlueWin();
+                                            
                         
                     }
                     if (RedScore >= 3)
                     {
                        
                        RedWin();
+                       
                         
                     }
         
@@ -102,13 +114,17 @@ public class GoalManager : MonoBehaviour
     private void BlueWin()
     {
         WinnerAlert.text = "Blue Won!";
-       
+        blueWins ++;
+        PlayerPrefs.SetInt("BlueWins", blueWins);
+        PlayerPrefs.Save();
         GameManager.GameOver();
     }
     private void RedWin()
     {
         WinnerAlert.text = "Red Won";
-        
+        redWins ++;
+        PlayerPrefs.SetInt("RedWins", redWins);
+        PlayerPrefs.Save();
         GameManager.GameOver();
     }
     public void ToggleGameOverUI(bool flag)
