@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         // Load the next scene in the build index (the game scene)
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 4);    
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);    
     }
 
     public void ExitGame()
@@ -39,19 +39,7 @@ public class MainMenu : MonoBehaviour
     }
     public void BackToMenu()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 4); 
-    }
-    public void LoadMap1()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 3);
-    }
-    public void LoadMap2()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
-    }
-    public void LoadMap3()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1); 
     }
 
 }

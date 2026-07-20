@@ -1,20 +1,35 @@
 using UnityEngine;
+using UnityEngine.InputSystem; //imports the input system into the script
 using System.Collections;
 
 public class KickBounce : MonoBehaviour
 {
       
 
-
+    [SerializeField, Tooltip("A variable to store the input action sheet we use for input.")] 
+    private InputActionAsset InputActions;
     [SerializeField] private float bounciness = 20f;
-    [SerializeField]private GameObject target;
+    [SerializeField] private GameObject target;
     [SerializeField] private GameObject HitstopScreen;
+    [SerializeField] private GameObject CritstopScreen;
     [SerializeField] private AudioManager AudioManager;
+    private InputAction moveAction;
+    private InputAction move2Action;
+
+
+    
     public static bool isWaiting = false; 
     private float critical;
     
     
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void Awake()
+    {
+        
+        moveAction = InputSystem.actions.FindAction("Move");
+        move2Action = InputSystem.actions.FindAction("Move2");
+    }
     void OnCollisionEnter(Collision collision)
     {
 
@@ -50,16 +65,32 @@ public class KickBounce : MonoBehaviour
                 {
                     if (isWaiting) return;
                     critical = Random.value;
-                    StartCoroutine(ExecuteHitStop(0.5f + (target.GetComponent<Rigidbody>().linearVelocity.magnitude - 15f)/10f));
+                    
                     if (critical <= 0.1 || target.GetComponent<Rigidbody>().linearVelocity.magnitude >= 20f)
                     {
                         AudioManager.PlaySound("Crit");
-                        Debug.Log("CRITICAL HIT");
+                        Debug.Log("CRITICAL HIT");  
+
+
+                        if (player != null)
+                        {
+                            StartCoroutine(Cripple(true));
+                        }
+                        else
+                        {
+                            StartCoroutine(Cripple(false));
+                        }
+                        StartCoroutine(Weaken(rb));
+                        StartCoroutine(ExecuteCritStop(0.5f + (target.GetComponent<Rigidbody>().linearVelocity.magnitude - 15f)/10f));
+
+
+
                     }
                     else
                     {
                         AudioManager.PlaySound("Hit");
-                        Debug.Log("normal hit");
+                       
+                        StartCoroutine(ExecuteHitStop(0.5f + (target.GetComponent<Rigidbody>().linearVelocity.magnitude - 15f)/10f));
                     }
                     
                     
@@ -130,6 +161,7 @@ public class KickBounce : MonoBehaviour
   
 
     }
+    
     private IEnumerator ExecuteHitStop(float duration)
     {
         isWaiting = true;
@@ -144,6 +176,44 @@ public class KickBounce : MonoBehaviour
         
         yield return new WaitForSecondsRealtime(5); 
         isWaiting = false;
+    }
+    private IEnumerator ExecuteCritStop(float duration)
+    {
+        isWaiting = true;
+        CritstopScreen.SetActive(true);
+        Time.timeScale = 0f; // Freeze all game logic and physics
+
+        // Must use Realtime because Time.timeScale is 0
+        yield return new WaitForSecondsRealtime(duration); 
+
+        Time.timeScale = 1f; // Restore normal speed
+        CritstopScreen.SetActive(false);
+        
+        yield return new WaitForSecondsRealtime(5); 
+        isWaiting = false;
+    }
+    private IEnumerator Cripple(bool player2)
+    {
+        if (player2)
+        {
+            moveAction.Disable();
+            yield return new WaitForSeconds(3f);
+            moveAction.Enable();
+        }
+        else
+        {
+            move2Action.Disable();
+            yield return new WaitForSeconds(3f);
+            move2Action.Enable();
+        }
+
+    }
+    private IEnumerator Weaken(Rigidbody rb)
+    {
+            rb.mass = 0.1f;
+            yield return new WaitForSeconds(5f);
+            rb.mass = 1f;
+
     }
     private void FixedUpdate()
     {
