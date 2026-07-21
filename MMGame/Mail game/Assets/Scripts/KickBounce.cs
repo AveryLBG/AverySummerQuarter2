@@ -210,7 +210,7 @@ public class KickBounce : MonoBehaviour
     }
     private IEnumerator Weaken(Rigidbody rb)
     {
-            rb.mass = 0.1f;
+            rb.mass = 0.75f;
             yield return new WaitForSeconds(5f);
             rb.mass = 1f;
 

@@ -11,9 +11,15 @@ public class GoalManager : MonoBehaviour
     [SerializeField] public TextMeshProUGUI BlueScoretext;
     [SerializeField] public TextMeshProUGUI RedScoretext;
     [SerializeField] public TextMeshProUGUI WinnerAlert;
+
+    [SerializeField] public RectTransform RedImage;
+    [SerializeField] public RectTransform BlueImage;
+
     [SerializeField] private GameManager GameManager; 
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private InputActionAsset InputActions;
+    
+
     private InputAction menuAction;
     public static GoalManager Instance {get; private set;}
     private bool menuOpen = false;
@@ -65,10 +71,13 @@ public class GoalManager : MonoBehaviour
                     if (player != null)
                     {
                         RedScore += 1;
+                        StartCoroutine(RedCrowd());
                     }
                     if (player2 != null)
                     {
                         BlueScore += 1;
+                        StartCoroutine(BlueCrowd());
+
                     }
                     if (BlueScore >= 3)
                     {
@@ -110,6 +119,66 @@ public class GoalManager : MonoBehaviour
             
         }
 
+    }
+    private IEnumerator BlueCrowd() //CHANGE ALL OF THIS TO USE SCREEN %
+    {
+        
+        RectTransform rectTransform = BlueImage.GetComponent<RectTransform>();
+        for (int i = 0; i < 250; i+= 2)
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 770); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+        for (int i = 250; i < 300; i++ )
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 770); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+        for (int i = 300; i > 250; i-- )
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i -770); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+
+        
+        for (int i = 250; i > 0; i-= 2)
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i -770); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+
+
+    }
+    private IEnumerator RedCrowd()
+    {
+        RectTransform rectTransform = RedImage.GetComponent<RectTransform>();
+        for (int i = 0; i < 250; i+= 2)
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 780); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+        
+        for (int i = 250; i < 300; i++ )
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 780); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+        for (int i = 300; i > 250; i-- )
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i -780); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+
+        
+        for (int i = 250; i > 0; i-= 2)
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i -780); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+
+        
+        
+        
     }
     private void BlueWin()
     {
