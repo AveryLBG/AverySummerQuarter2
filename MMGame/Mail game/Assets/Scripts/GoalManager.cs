@@ -14,18 +14,25 @@ public class GoalManager : MonoBehaviour
 
     [SerializeField] public RectTransform RedImage;
     [SerializeField] public RectTransform BlueImage;
+    [SerializeField] public RectTransform BTImage;
+    [SerializeField] public RectTransform RTImage;
 
     [SerializeField] private GameManager GameManager; 
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private InputActionAsset InputActions;
+    [SerializeField] private AudioManager AudioManager;
+    
     
 
     private InputAction menuAction;
+    private InputAction rtauntAction;
+    private InputAction btauntAction;
     public static GoalManager Instance {get; private set;}
     private bool menuOpen = false;
 
     public int blueWins {get; private set;}
     public int redWins {get; private set;}
+    private float screenhMult;
     //1. Players play
     //2. When the game is over calc liftime wins
     private void Awake()
@@ -42,16 +49,23 @@ public class GoalManager : MonoBehaviour
         }
         ToggleGameOverUI(false);
         menuAction = InputSystem.actions.FindAction("Menu");
+        rtauntAction = InputSystem.actions.FindAction("RTaunt");
+        btauntAction = InputSystem.actions.FindAction("BTaunt");
 
         //Gets the saved data
         blueWins = PlayerPrefs.GetInt("BlueWins", 0);
         redWins = PlayerPrefs.GetInt("RedWins", 0);
+        screenhMult = Screen.height / 1080f;
+        Debug.Log("Screen Height in Pixels: " + Screen.height);
+        
+        
     }
       
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void OnCollisionEnter(Collision collision)
     {
+        
     
         //Debug.Log("Something hit the pad!");
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
@@ -72,13 +86,16 @@ public class GoalManager : MonoBehaviour
                     {
                         RedScore += 1;
                         StartCoroutine(RedCrowd());
+                        AudioManager.PlaySound("Score");
                     }
                     if (player2 != null)
                     {
                         BlueScore += 1;
                         StartCoroutine(BlueCrowd());
+                        AudioManager.PlaySound("Score");
 
                     }
+
                     if (BlueScore >= 3)
                     {
                         BlueWin();
@@ -118,32 +135,44 @@ public class GoalManager : MonoBehaviour
             }
             
         }
+        if (btauntAction.WasPressedThisFrame())
+        {
+            StartCoroutine(BTaunt());
+            AudioManager.PlaySound("Taunt");
+        }
+        if (rtauntAction.WasPressedThisFrame())
+        {
+            StartCoroutine(RTaunt());
+            AudioManager.PlaySound("Taunt");
+        }
+
 
     }
     private IEnumerator BlueCrowd() //CHANGE ALL OF THIS TO USE SCREEN %
     {
         
         RectTransform rectTransform = BlueImage.GetComponent<RectTransform>();
-        for (int i = 0; i < 250; i+= 2)
+        for (float i = 0; i < 250; i+= 2 * screenhMult)
         {
-           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 770); 
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i  - 750 ); 
            yield return new WaitForSeconds(0.001f); 
         }
-        for (int i = 250; i < 300; i++ )
+        
+        for (float i = 250; i < 300; i+= 1 * screenhMult )
         {
-           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 770); 
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
            yield return new WaitForSeconds(0.001f); 
         }
-        for (int i = 300; i > 250; i-- )
+        for (float i = 300; i > 250; i-= 1 * screenhMult )
         {
-           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i -770); 
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
            yield return new WaitForSeconds(0.001f); 
         }
 
         
-        for (int i = 250; i > 0; i-= 2)
+        for (float i = 250; i > 0; i-= 2 * screenhMult)
         {
-           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i -770); 
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
            yield return new WaitForSeconds(0.001f); 
         }
 
@@ -152,31 +181,93 @@ public class GoalManager : MonoBehaviour
     private IEnumerator RedCrowd()
     {
         RectTransform rectTransform = RedImage.GetComponent<RectTransform>();
-        for (int i = 0; i < 250; i+= 2)
+        for (float i = 0; i < 250; i+= 2 * screenhMult)
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i  - 780); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+        
+        for (float i = 250; i < 300; i+= 1 * screenhMult )
         {
            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 780); 
            yield return new WaitForSeconds(0.001f); 
         }
-        
-        for (int i = 250; i < 300; i++ )
+        for (float i = 300; i > 250; i-= 1 * screenhMult )
         {
            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 780); 
            yield return new WaitForSeconds(0.001f); 
         }
-        for (int i = 300; i > 250; i-- )
+
+        
+        for (float i = 250; i > 0; i-= 2 * screenhMult)
         {
-           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i -780); 
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 780); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+
+        Debug.Log(screenhMult);
+        
+        
+    }
+    private IEnumerator BTaunt()
+    {
+        RectTransform rectTransform = BTImage.GetComponent<RectTransform>();
+        for (float i = 0; i < 250; i+= 2 * screenhMult)
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i  - 750); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+        
+        for (float i = 250; i < 300; i+= 1 * screenhMult )
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+        for (float i = 300; i > 250; i-= 1 * screenhMult )
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
            yield return new WaitForSeconds(0.001f); 
         }
 
         
-        for (int i = 250; i > 0; i-= 2)
+        for (float i = 250; i > 0; i-= 2 * screenhMult)
         {
-           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i -780); 
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+
+        Debug.Log(screenhMult);
+        
+        
+    }
+    private IEnumerator RTaunt()
+    {
+        RectTransform rectTransform = RTImage.GetComponent<RectTransform>();
+        for (float i = 0; i < 250; i+= 2 * screenhMult)
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i  - 750); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+        
+        for (float i = 250; i < 300; i+= 1 * screenhMult )
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+        for (float i = 300; i > 250; i-= 1 * screenhMult )
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
            yield return new WaitForSeconds(0.001f); 
         }
 
         
+        for (float i = 250; i > 0; i-= 2 * screenhMult)
+        {
+           rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
+           yield return new WaitForSeconds(0.001f); 
+        }
+
+        Debug.Log(screenhMult);
         
         
     }

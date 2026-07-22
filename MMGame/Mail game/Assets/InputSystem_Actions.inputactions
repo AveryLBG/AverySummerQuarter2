@@ -122,6 +122,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "BTaunt",
+                    "type": "Button",
+                    "id": "907032b1-7e3c-41b9-9035-18252605b60c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RTaunt",
+                    "type": "Button",
+                    "id": "34a12c66-1f46-4269-ab38-de903fa62953",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -435,17 +453,6 @@
                 },
                 {
                     "name": "",
-                    "id": "4bbc39c0-6cd7-4716-ac9c-7f96035be7dc",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "fba5c277-cdf4-474d-82bf-c21933e0c5a3",
                     "path": "<Keyboard>/period",
                     "interactions": "",
@@ -705,6 +712,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae13dceb-c5e7-49c0-90c8-5fb404520aed",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BTaunt",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ce387d57-0e0d-4a62-945d-c0e18cfb3e36",
+                    "path": "<Keyboard>/rightShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RTaunt",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

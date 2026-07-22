@@ -1614,12 +1614,12 @@ MonoBehaviour:
 
 
     You can
-    pass through objects of your color
+    pass through/kick objects of your color
 
-    You can kick boxes of your color
+    Shift to Taunt
 
-    Esc
-    to open menu
+    Esc to open
+    menu
 
 '
   m_isRightToLeft: 0
