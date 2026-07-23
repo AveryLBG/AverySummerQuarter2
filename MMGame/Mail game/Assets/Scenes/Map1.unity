@@ -3684,6 +3684,30 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     audioSource: {fileID: 0}
+  - name: SoftHit
+    audioClip: {fileID: 8300000, guid: db9226e2834f54f01ac1c0397b1ef98a, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: SoftHit2
+    audioClip: {fileID: 8300000, guid: 02b63169e5f1142f483df41c5144c976, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: SoftHit3
+    audioClip: {fileID: 8300000, guid: be7b9b1dbe58d4ace9294357211584d5, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: Taunt2
+    audioClip: {fileID: 8300000, guid: 8bbfc9309abe1448fa875d7fc7b160d2, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
 --- !u!4 &882570653
 Transform:
   m_ObjectHideFlags: 0
@@ -7600,6 +7624,7 @@ MonoBehaviour:
     m_Bits: 8
   groundCheckDistance: 0.7
   rb: {fileID: 1696522982}
+  leg: {fileID: 230431424}
   moveSpeed: 15
   jumpForce: 7.5
 --- !u!1001 &1724255873
@@ -9102,6 +9127,7 @@ MonoBehaviour:
     m_Bits: 8
   groundCheckDistance: 0.7
   rb: {fileID: 2027257961}
+  leg: {fileID: 2074256752}
   moveSpeed: 15
   jumpForce: 7.5
 --- !u!4 &2027521323 stripped

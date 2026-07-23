@@ -21,9 +21,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundCheckDistance = 10f;
     //[SerializeField] float speed; //DELETE LATER
     private bool slamcd1 = true;
+    private float speed;
 
     // COMPONENTS
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private GameObject leg;
 
     // PLAYER SETTINGS
     [SerializeField] private float moveSpeed = 10f;
@@ -126,7 +128,9 @@ public class PlayerController : MonoBehaviour
         {
             if (slamcd1)
             {
-                rb.AddForce(Vector3.down * jumpForce * 2f, ForceMode.Impulse);
+                speed = rb.GetComponent<Rigidbody>().linearVelocity.magnitude;
+                rb.AddForce(Vector3.down * jumpForce * 1f, ForceMode.Impulse);
+                rb.AddForce(leg.transform.forward * 5f, ForceMode.Impulse);
                 rb.mass = 10f;
                 StartCoroutine(CooldownSequence());
             }
@@ -137,7 +141,7 @@ public class PlayerController : MonoBehaviour
     public bool IsGrounded()
     {
           //Draw the raycast for debug
-        Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance);
+        //Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance);
     
         return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundLayer);
       

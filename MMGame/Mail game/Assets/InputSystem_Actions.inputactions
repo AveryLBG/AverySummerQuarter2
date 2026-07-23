@@ -398,17 +398,6 @@
                 },
                 {
                     "name": "",
-                    "id": "a8e48cdf-4f5f-49cc-b7ed-4fcdda5ba08a",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "5477b784-8775-4bce-b4f0-8629cb055a60",
                     "path": "<Keyboard>/g",
                     "interactions": "",

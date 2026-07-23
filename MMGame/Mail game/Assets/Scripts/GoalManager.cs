@@ -21,6 +21,7 @@ public class GoalManager : MonoBehaviour
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private InputActionAsset InputActions;
     [SerializeField] private AudioManager AudioManager;
+    private float random;
     
     
 
@@ -56,7 +57,7 @@ public class GoalManager : MonoBehaviour
         blueWins = PlayerPrefs.GetInt("BlueWins", 0);
         redWins = PlayerPrefs.GetInt("RedWins", 0);
         screenhMult = Screen.height / 1080f;
-        Debug.Log("Screen Height in Pixels: " + Screen.height);
+        //Debug.Log("Screen Height in Pixels: " + Screen.height);
         
         
     }
@@ -137,13 +138,30 @@ public class GoalManager : MonoBehaviour
         }
         if (btauntAction.WasPressedThisFrame())
         {
+            random = Random.value;
             StartCoroutine(BTaunt());
-            AudioManager.PlaySound("Taunt");
+            if (random <= 0.75)
+            {
+                AudioManager.PlaySound("Taunt");
+            }
+            else
+            {
+               AudioManager.PlaySound("Taunt2"); 
+            }
+
         }
         if (rtauntAction.WasPressedThisFrame())
         {
+            random = Random.value;
             StartCoroutine(RTaunt());
-            AudioManager.PlaySound("Taunt");
+            if (random <= 0.75)
+            {
+                AudioManager.PlaySound("Taunt");
+            }
+            else
+            {
+               AudioManager.PlaySound("Taunt2"); 
+            }
         }
 
 
@@ -163,7 +181,7 @@ public class GoalManager : MonoBehaviour
            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
            yield return new WaitForSeconds(0.001f); 
         }
-        for (float i = 300; i > 250; i-= 1 * screenhMult )
+        for (float i = 300; i > 250; i-= 1.5f * screenhMult )
         {
            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
            yield return new WaitForSeconds(0.001f); 
@@ -192,7 +210,7 @@ public class GoalManager : MonoBehaviour
            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 780); 
            yield return new WaitForSeconds(0.001f); 
         }
-        for (float i = 300; i > 250; i-= 1 * screenhMult )
+        for (float i = 300; i > 250; i-= 1.5f * screenhMult )
         {
            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 780); 
            yield return new WaitForSeconds(0.001f); 
@@ -205,7 +223,7 @@ public class GoalManager : MonoBehaviour
            yield return new WaitForSeconds(0.001f); 
         }
 
-        Debug.Log(screenhMult);
+        //Debug.Log(screenhMult);
         
         
     }
@@ -223,7 +241,7 @@ public class GoalManager : MonoBehaviour
            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
            yield return new WaitForSeconds(0.001f); 
         }
-        for (float i = 300; i > 250; i-= 1 * screenhMult )
+        for (float i = 300; i > 250; i-= 1.5f * screenhMult )
         {
            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
            yield return new WaitForSeconds(0.001f); 
@@ -236,7 +254,7 @@ public class GoalManager : MonoBehaviour
            yield return new WaitForSeconds(0.001f); 
         }
 
-        Debug.Log(screenhMult);
+        //Debug.Log(screenhMult);
         
         
     }
@@ -254,7 +272,7 @@ public class GoalManager : MonoBehaviour
            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
            yield return new WaitForSeconds(0.001f); 
         }
-        for (float i = 300; i > 250; i-= 1 * screenhMult )
+        for (float i = 300; i > 250; i-= 1.5f * screenhMult )
         {
            rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, i - 750); 
            yield return new WaitForSeconds(0.001f); 
@@ -267,7 +285,7 @@ public class GoalManager : MonoBehaviour
            yield return new WaitForSeconds(0.001f); 
         }
 
-        Debug.Log(screenhMult);
+        //Debug.Log(screenhMult);
         
         
     }

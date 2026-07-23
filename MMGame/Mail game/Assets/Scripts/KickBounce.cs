@@ -15,6 +15,7 @@ public class KickBounce : MonoBehaviour
     [SerializeField] private AudioManager AudioManager;
     private InputAction moveAction;
     private InputAction move2Action;
+    private float random;
 
 
     
@@ -50,6 +51,28 @@ public class KickBounce : MonoBehaviour
             
 
             if (rb == null) return;
+            else
+            {
+                random = Random.value;
+                if (random <= 0.3)
+                {
+                    AudioManager.PlaySound("SoftHit3");
+                }
+                else
+                {
+                    if (random <= 0.6)
+                    {
+                        AudioManager.PlaySound("SoftHit2"); 
+                    }
+                    else
+                    {
+                        AudioManager.PlaySound("SoftHit");
+                    }
+                }
+                
+
+
+            }
 
                 if (isWaiting) return;
                 //get the point of contact
