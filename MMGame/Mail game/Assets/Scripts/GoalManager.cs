@@ -140,13 +140,20 @@ public class GoalManager : MonoBehaviour
         {
             random = Random.value;
             StartCoroutine(BTaunt());
-            if (random <= 0.75)
+            if (random <= 0.1)
             {
-                AudioManager.PlaySound("Taunt");
+                AudioManager.PlaySound("Taunt3");
             }
             else
             {
-               AudioManager.PlaySound("Taunt2"); 
+                if (random <= 0.75)
+                {
+                    AudioManager.PlaySound("Taunt");
+                }
+                else
+                {
+                AudioManager.PlaySound("Taunt2"); 
+                }
             }
 
         }
@@ -154,13 +161,20 @@ public class GoalManager : MonoBehaviour
         {
             random = Random.value;
             StartCoroutine(RTaunt());
-            if (random <= 0.75)
+            if (random <= 0.1)
             {
-                AudioManager.PlaySound("Taunt");
+                AudioManager.PlaySound("Taunt3");
             }
             else
             {
-               AudioManager.PlaySound("Taunt2"); 
+                if (random <= 0.75)
+                {
+                    AudioManager.PlaySound("Taunt");
+                }
+                else
+                {
+                AudioManager.PlaySound("Taunt2"); 
+                }
             }
         }
 

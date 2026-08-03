@@ -3708,6 +3708,12 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     audioSource: {fileID: 0}
+  - name: Taunt3
+    audioClip: {fileID: 8300000, guid: 6b216a97d82d642fbb6316bebc16d873, type: 3}
+    volume: 0.837
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
 --- !u!4 &882570653
 Transform:
   m_ObjectHideFlags: 0
