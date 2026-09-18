@@ -128,11 +128,14 @@ public class GoalManager : MonoBehaviour
             {
                 GameOverPanel.SetActive(false);
                 menuOpen = false;
+                Time.timeScale = 1f;
+
             }
             else
             {
                GameOverPanel.SetActive(true);
                menuOpen = true;
+               Time.timeScale = 0f;
             }
             
         }

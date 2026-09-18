@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem; //imports the input system into the script
 using System.Collections;
+using UnityEngine.VFX;
 
 public class KickBounce : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class KickBounce : MonoBehaviour
     [SerializeField] private AudioManager AudioManager;
     private InputAction moveAction;
     private InputAction move2Action;
+    [SerializeField] private ParticleSystem hitParticles;
     private float random;
 
 
@@ -69,10 +71,16 @@ public class KickBounce : MonoBehaviour
                         AudioManager.PlaySound("SoftHit");
                     }
                 }
+
+                if (target.GetComponent<Rigidbody>().linearVelocity.y < 0)
+                {
+                    target.GetComponent<Rigidbody>().AddForce(Vector3.up * target.GetComponent<Rigidbody>().linearVelocity.magnitude * 0.2f, ForceMode.Impulse);
+                }
                 
 
 
             }
+
 
                 if (isWaiting) return;
                 //get the point of contact
@@ -84,6 +92,7 @@ public class KickBounce : MonoBehaviour
                 // Bounce their asss using their rb component
                 //Uses negative values because the pad bounces in the wrong direction.
                 rb.AddForce(-0.1f * bounciness  * bounceDirection * target.GetComponent<Rigidbody>().linearVelocity.magnitude, ForceMode.Impulse);
+                
                 if (target.GetComponent<Rigidbody>().linearVelocity.magnitude >= 10f)
                 {
                     if (isWaiting) return;
@@ -93,6 +102,7 @@ public class KickBounce : MonoBehaviour
                     {
                         AudioManager.PlaySound("Crit");
                         Debug.Log("CRITICAL HIT");  
+                        
 
 
                         if (player != null)
@@ -104,7 +114,7 @@ public class KickBounce : MonoBehaviour
                             StartCoroutine(Cripple(false));
                         }
                         StartCoroutine(Weaken(rb));
-                        StartCoroutine(ExecuteCritStop(0.5f + (target.GetComponent<Rigidbody>().linearVelocity.magnitude - 15f)/10f));
+                        StartCoroutine(ExecuteCritStop(0.5f + Mathf.Clamp((target.GetComponent<Rigidbody>().linearVelocity.magnitude - 15f)/10f ,0f, 1.5f)));
 
 
 
@@ -113,7 +123,9 @@ public class KickBounce : MonoBehaviour
                     {
                         AudioManager.PlaySound("Hit");
                        
-                        StartCoroutine(ExecuteHitStop(0.5f + (target.GetComponent<Rigidbody>().linearVelocity.magnitude - 15f)/10f));
+                        //StartCoroutine(ExecuteHitStop(0.5f + Mathf.Clamp((target.GetComponent<Rigidbody>().linearVelocity.magnitude - 15f)/10f, 0f, 1f)));
+                        hitParticles.transform.position = transform.position;
+                        hitParticles.Play();
                     }
                     
                     

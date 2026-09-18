@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem; //imports the input system into the script
 using System.Collections;
+using UnityEngine.VFX;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,8 +20,13 @@ public class PlayerController : MonoBehaviour
     //LOGIC
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDistance = 10f;
+
+    [SerializeField] private GameObject indic;
     //[SerializeField] float speed; //DELETE LATER
     private bool slamcd1 = true;
+    private bool wavedash1 = false;
+
+   
     private float speed;
 
     // COMPONENTS
@@ -30,6 +36,9 @@ public class PlayerController : MonoBehaviour
     // PLAYER SETTINGS
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private ParticleSystem wavedashParticles;
+
+    
 
 
 
@@ -74,7 +83,9 @@ public class PlayerController : MonoBehaviour
             //Tell the player to jump.
             HandleJump();
         }
+        
         //speed = rb.linearVelocity.magnitude;
+       
 
     }
 
@@ -82,6 +93,14 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         HandleMovement();
+        if (rb.linearVelocity.y < 0.5)
+        {
+
+
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y - 0f, rb.linearVelocity.z);
+            
+            
+        }
 
     }
 
@@ -89,10 +108,12 @@ public class PlayerController : MonoBehaviour
     IEnumerator CooldownSequence()
     {
         slamcd1 = false;
+        wavedash1 = true;
+        indic.SetActive(false);
 
          //Pause for 0.5 seconds
         yield return new WaitForSeconds(0.5f);
-
+        wavedash1 = false;
         //Reset mass
         rb.mass = 1;
 
@@ -101,8 +122,11 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         
         slamcd1 = true;
+        indic.SetActive(true);
+
     
     }
+    
 
     private void HandleMovement()
     {
@@ -112,7 +136,8 @@ public class PlayerController : MonoBehaviour
         // Prevent diagonals from being faster
         moveDirection.Normalize();
         // Apply the movement of the player.
-        rb.AddForce(moveDirection * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
+       
+            rb.AddForce(moveDirection * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
 
     }
 
@@ -123,6 +148,18 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            if (wavedash1)
+            {
+                //Debug.Log("Wavedash");
+                
+                //StartCoroutine(Wavedash());
+                wavedashParticles.transform.position = transform.position;
+                wavedashParticles.Play();
+                rb.linearVelocity = leg.transform.forward * rb.linearVelocity.magnitude;
+                rb.AddForce(Vector3.up * jumpForce * 3f, ForceMode.Impulse);
+                rb.AddForce(leg.transform.forward * (rb.linearVelocity.magnitude + 50f), ForceMode.Impulse);
+                
+            }
         }
         else
         {

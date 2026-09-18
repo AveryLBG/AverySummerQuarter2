@@ -158,7 +158,18 @@
                 {
                     "name": "",
                     "id": "73239e61-5478-4d49-ae67-47820f5007bd",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4273fb32-237a-4bb9-a1f5-de589c211738",
+                    "path": "<Keyboard>/rightBracket",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -191,7 +202,18 @@
                 {
                     "name": "",
                     "id": "5477b784-8775-4bce-b4f0-8629cb055a60",
-                    "path": "<Keyboard>/g",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b954204-04ca-4fdd-a905-57944e0fe4b8",
+                    "path": "<Keyboard>/leftBracket",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -224,7 +246,7 @@
                 {
                     "name": "",
                     "id": "fba5c277-cdf4-474d-82bf-c21933e0c5a3",
-                    "path": "<Keyboard>/period",
+                    "path": "<Keyboard>/comma",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -422,7 +444,7 @@
                 {
                     "name": "",
                     "id": "1a9647e5-210b-4551-b3ff-d00ba7f792bb",
-                    "path": "<Keyboard>/comma",
+                    "path": "<Keyboard>/period",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
